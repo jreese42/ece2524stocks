@@ -1,0 +1,5 @@
+title: stock market simulator
+contributors: Brian
+type: tool, game
+repo: ece2524.ece.vt.edu:brhiln/project.git
+description: stock market (named Stock MOCKet?) Player is given a certain amount of money to invest into the real stock market. Hopefully we can pull live data from the internet.

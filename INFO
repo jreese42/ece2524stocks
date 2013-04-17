@@ -2,6 +2,6 @@ title: stock market simulation game
 contributers: jreese42 nick brhiln
 type: game
 repo: ece2524git@ece2524.ece.vt.edu:jreese42/project.git
-description: a game that allows the player to invest a set amount of money towards buy stocks,
-			 and then will simulate prices fluctuation on the stocks.  the goal is for the player
+description: a game that allows the player to invest a set amount of money towards buying stocks,
+			 and then will simulate price fluctuation on the stocks.  the goal is for the player
 			 to buy and sell his stocks in an attempt to maximize profit

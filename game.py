@@ -10,6 +10,9 @@ cash = 100
 rand.seed(time.time())
 
 def show_stocks():
+	sys.stdout.write(":\n\n")
+	sys.stdout.write("-"*20)
+	sys.stdout.write("\n\n")
 	for i,stock in enumerate(stocks):
 		sys.stdout.write(str(i+1) + ") ")
 		stock.show()
@@ -25,16 +28,24 @@ def trade_stocks(cash):
 		split_input = user_input.split()
 		if (split_input[0] == 'buy'):
 			try:
-				cash -= stocks[int(split_input[2])-1].buy(int(split_input[1]))
+				if (cash >= (int(split_input[1])*stocks[int(split_input[2])-1].price)):
+					cash -= stocks[int(split_input[2])-1].buy(int(split_input[1]))
+				else:
+					print "You don't have enough money for that!"
+
 			except:
 				print "Input Error: Try something else"
 				print "Format: buy [number] [stock]"		  
 		elif (split_input[0] == 'sell'):
-			try:
-				cash += stocks[int(split_input[2])-1].sell(int(split_input[1]))
-			except:
-				print "Input Error: Try something else"
-				print "Format: sell [number] [stock]"
+				try:
+					own = stocks[int(split_input[2])-1].owned
+					if (own >= int(split_input[1])):
+						cash += stocks[int(split_input[2])-1].sell(int(split_input[1]))
+					else:
+						print "You don't own those stocks!"
+				except:
+					print "Input Error: Try something else"
+					print "Format: sell [number] [stock]"
 		elif (split_input[0] == "done"):
 			break
 		else:

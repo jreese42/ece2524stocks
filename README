@@ -9,7 +9,4 @@ To use the game, type one of the following:
 The 'done' command will finish the day's trading and simulate a new day.
 
 Known Issues:
-	There is no limit on player spending.  You can buy as many of any stock as you want, regardless of cash on hand.
-	This also means you can sell more stocks than you have to end up with negative stocks
-	Stock changes tend to trend negative in the first few days despite randomness
 	There are currently no game objectives

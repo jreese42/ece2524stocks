@@ -10,12 +10,30 @@ cash = 100
 rand.seed(time.time())
 
 def show_stocks():
-	sys.stdout.write(":\n\n")
-	sys.stdout.write("-"*20)
-	sys.stdout.write("\n\n")
+	sys.stdout.write("\n\n") #Table header
+	sys.stdout.write("Num  |  Name                               |  Owned     |  Price     |  Change\n")
+	sys.stdout.write("-"*5 + "|" + "-"*37 + "|" + "-"*12 + "|" + "-"*12 + "|" + "-"*9 + "\n")
 	for i,stock in enumerate(stocks):
-		sys.stdout.write(str(i+1) + ") ")
-		stock.show()
+		string = ""
+		string += (str(i+1) + ")")
+		while (len(string) < 5):
+			string += " "
+		string += ("|  " + stock.name )
+		while (len(string) < 43):
+			string += " "
+		string += ("|  " + str(stock.owned))
+		while (len(string) < 56):
+			string += " "
+		string += ("|  $" + str(stock.price))
+		while (len(string) < 69):
+			string += " "
+		string += "|  "
+		if (stock.change < 0):
+			string += "-"
+		else:
+			string += "+"
+		string += "$" + str(abs(stock.change))
+		print string
 
 def sim_stocks():
 	for stock in stocks:

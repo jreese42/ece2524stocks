@@ -5,7 +5,9 @@ Run game.py
 To use the game, type one of the following:
 	 buy [how many] [stock number]
 	sell [how many] [stock number]
+	view
 	done
+The 'view' command will show a table of the stocks.
 The 'done' command will finish the day's trading and simulate a new day.
 
 Known Issues:

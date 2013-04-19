@@ -42,7 +42,7 @@ def sim_stocks():
 def trade_stocks(cash):
 	while(1):
 		print "\nYou have $" + str(cash) + "!"
-		user_input = raw_input("Buy, sell, or done: ")
+		user_input = raw_input("Buy, sell, view, or done: ")
 		split_input = user_input.split()
 		if (split_input[0] == 'buy'):
 			try:
@@ -64,6 +64,8 @@ def trade_stocks(cash):
 				except:
 					print "Input Error: Try something else"
 					print "Format: sell [number] [stock]"
+		elif (split_input[0] == "view"):
+			show_stocks()
 		elif (split_input[0] == "done"):
 			break
 		else:

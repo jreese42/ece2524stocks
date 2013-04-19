@@ -61,17 +61,3 @@ class Stock:
 	def sell(self, amount):
 		self.owned -= 1
 		return self.price*amount
-
-	def show(self):
-		#This function will print the name, price, and day's change of
-		#the stock to stdout
-		string = ""
-		string += self.name + ", "
-		string += str(self.owned) + ", "
-		string += "$" + str(self.price) + ", "
-		if (self.change < 0):
-			string += "-"
-		else:
-			string += "+"
-		string += "$" + str(abs(self.change))
-		print string

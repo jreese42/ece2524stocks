@@ -23,6 +23,7 @@ class Stock:
 		     5: trend_gr_fall}
 
 	rand.seed(time.time())
+	#Set up for random name generator
 	with open("name_prefix") as f:
 		name1 = f.read().splitlines()
 	with open("name_suffix") as f:
@@ -59,5 +60,5 @@ class Stock:
 		return self.price*amount
 
 	def sell(self, amount):
-		self.owned -= 1
+		self.owned -= amount
 		return self.price*amount

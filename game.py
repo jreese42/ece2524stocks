@@ -57,6 +57,7 @@ def trade_stocks(cash):
 				#Call buy method on stock if enough cash
 				if (cash >= (int(split_input[1])*stocks[int(split_input[2])-1].price)):
 					cash -= stocks[int(split_input[2])-1].buy(int(split_input[1]))
+					show_stocks()
 				else:
 					print "You don't have enough money for that!"
 
@@ -69,6 +70,7 @@ def trade_stocks(cash):
 					own = stocks[int(split_input[2])-1].owned
 					if (own >= int(split_input[1])):
 						cash += stocks[int(split_input[2])-1].sell(int(split_input[1]))
+						show_stocks()
 					else:
 						print "You don't own those stocks!"
 				except:

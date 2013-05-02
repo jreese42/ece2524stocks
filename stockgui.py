@@ -7,7 +7,11 @@ from google.appengine.ext import db
 from google.appengine.api import users
 
 TEST = ["test1", "test2"]
-BUTTONS = ["Buy", "Buy", "Buy", "Buy", "Buy", "Buy", "Buy", "Buy", "Buy", "Buy"]
+COMPANY = ["", "", "", "", "", "", "", "", "", ""]
+OWNED = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+PRICE = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+DELTA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
 #Company company
 
 FINISH = """\
@@ -34,13 +38,10 @@ FINISH = """\
 TABLE = """\
 	<tr>
 		<td>
-			<form action="/buy%s" method="post">
-				<input name="buy%s" type="submit" value="Buy" />
-				<input name="amount%s" value="hi"/>
+			<form action="/handle%s" method="post">
+				<input name="buy%s" type="submit" value="Update" />
+				<input name="amount%s" maxlength="10" size="6"/>
 			</form>
-			<form action="/sell%s" method="post">
-				<input name="sell%s" type="submit" value="Sell" />
-			</form></td>
 		<td>
 			%s</td>
 		<td>
@@ -48,7 +49,7 @@ TABLE = """\
 		<td>
 			%s</td>
 		<td>
-			&nbsp;</td>
+			%s</td>
 	</tr>
 </form>
 """
@@ -58,15 +59,15 @@ MAIN_PAGE_HTML = """\
 		<title></title>
 	</head>
 	<body>
-		<p>
-			<em><strong>World Wide Stock Exchange</strong></em></p>
+		<p><em><strong>World Wide Stock Exchange</strong></em></p>
+		<p><em><strong>User: %s</strong></em></p>
 	</body>
 	<body>
 		<table align="left" border="1" cellpadding="1" cellspacing="1" id="testID">
 			<thead>
 				<tr>
 					<th scope="col">
-						&nbsp;</th>
+						Update Stocks</th>
 					<th scope="col">
 						Company</th>
 					<th scope="col">
@@ -99,13 +100,13 @@ class MainPage(webapp2.RequestHandler):
 		user = users.get_current_user()
 		if user:
 			self.response.write('<html>')
-			self.response.write(MAIN_PAGE_HTML)
+			self.response.write(MAIN_PAGE_HTML % user.nickname())
 			while (i < 10):
 				if ((i%2) == 0):
 					button = "sell"
 				else:
 					button = "buy"
-				self.response.write(TABLE % (str(i), str(i), str(i), str(i), str(i), user.nickname(), str(TEST[0]), str(TEST[1])))
+				self.response.write(TABLE % (str(i), str(i), str(i), COMPANY[i], str(OWNED[i]), str(PRICE[i]), str(DELTA[i])))
 				i = i+1
 			self.response.write(FINISH)
 			self.response.write('</html>')
@@ -133,131 +134,70 @@ class Progress(webapp2.RequestHandler):
 		TEST = [TEST[1]+1, TEST[0]+1]
 		self.redirect('/?' + "progress")
 
-class buy0(webapp2.RequestHandler):
+class handle0(webapp2.RequestHandler):
 
 	def post(self):
-		#comp = Company(parent=user.nickname())
 		amount = self.request.get('amount0')
-		#comp.buy()#"Company", int(amount))
-		self.redirect('/?' + "buy1")	
+		OWNED[0] += int(amount)
+		self.redirect('/?' + "handle1")	
 
-class buy1(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "buy2")
-
-class buy2(webapp2.RequestHandler):
+class handle1(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "buy3")
+		self.redirect('/?' + "handle2")
 
-class buy3(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "buy4")
-
-class buy4(webapp2.RequestHandler):
+class handle2(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "buy5")
+		self.redirect('/?' + "handle3")
 
-class buy5(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "buy6")
-
-class buy6(webapp2.RequestHandler):
+class handle3(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "buy7")
+		self.redirect('/?' + "handle4")
 
-class buy7(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "buy8")
-
-class buy8(webapp2.RequestHandler):
+class handle4(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "buy9")
+		self.redirect('/?' + "handle5")
 
-class buy9(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "buy10")
-
-class sell0(webapp2.RequestHandler):
+class handle5(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "sell1")
+		self.redirect('/?' + "handle6")
 
-class sell1(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "sell2")
-
-class sell2(webapp2.RequestHandler):
+class handle6(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "sell3")
+		self.redirect('/?' + "handle7")
 
-class sell3(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "sell4")
-
-class sell4(webapp2.RequestHandler):
+class handle7(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "sell5")
+		self.redirect('/?' + "handle8")
 
-class sell5(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "sell6")
-
-class sell6(webapp2.RequestHandler):
+class handle8(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "sell7")
+		self.redirect('/?' + "handle9")
 
-class sell7(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "sell8")
-
-class sell8(webapp2.RequestHandler):
+class handle9(webapp2.RequestHandler):
 
 	def post(self):
-		self.redirect('/?' + "sell9")
-
-class sell9(webapp2.RequestHandler):
-
-	def post(self):
-		self.redirect('/?' + "sell10")
+		self.redirect('/?' + "handle10")
 
 app = webapp2.WSGIApplication([('/', MainPage),
                               ('/progress', Progress),
 			      			  ('/loadReal', LoadReal),
 			      			  ('/loadFake', LoadSimulated),
-			      			  ('/buy0', buy0),
-			      			  ('/buy1', buy1),
-			      			  ('/buy2', buy2),
-			      			  ('/buy3', buy3),
-			      			  ('/buy4', buy4),
-			      			  ('/buy5', buy5),
-			      			  ('/buy6', buy6),
-			      			  ('/buy7', buy7),
-			      			  ('/buy8', buy8),
-							  ('/buy9', buy9),
-			      			  ('/sell0', sell0),
-			      			  ('/sell1', sell1),
-			      			  ('/sell2', sell2),
-			      			  ('/sell3', sell3),
-			      			  ('/sell4', sell4),
-			      			  ('/sell5', sell5),
-			      			  ('/sell6', sell6),
-			      			  ('/sell7', sell7),
-			      			  ('/sell8', sell8),
-							  ('/sell9', sell9)],
+			      			  ('/handle0', handle0),
+			      			  ('/handle1', handle1),
+			      			  ('/handle2', handle2),
+			      			  ('/handle3', handle3),
+			      			  ('/handle4', handle4),
+			      			  ('/handle5', handle5),
+			      			  ('/handle6', handle6),
+			      			  ('/handle7', handle7),
+			      			  ('/handle8', handle8),
+							  ('/handle9', handle9)],
                               debug=True)

@@ -4,6 +4,17 @@ body
 	color: #033
 	background-color: #E3E3E3
 }
+#head
+{
+	font-family: "Lucida Sans unicode", "Lucida Grande", sans-serif;
+	font-size: 15px;
+	margin: 0px;
+	width: 650px;
+	text-align: center;
+	border-collapse: collapse;
+	border: solid transparent;
+	background: transparent;
+}
 #stock-table
 {
 	font-family: "Lucida Sans unicode", "Lucida Grande", sans-serif;

@@ -1,0 +1,57 @@
+body
+{
+	font-family: "Lucida Sans Unicode", sans-serif;
+	color: #033
+	background-color: #E3E3E3
+}
+#stock-table
+{
+	font-family: "Lucida Sans unicode", "Lucida Grande", sans-serif;
+	font-size: 12px;
+	margin: 30px;
+	width: 650px;
+	text-align: left;
+	border-collapse: collapse;
+}
+#stock-table th
+{
+	font-size: 14px;
+	padding: 12px 15px;
+	color: #039;
+	border-bottom: 3px solid #e8edff;
+	border-right: solid transparent;
+	border-left:  solid transparent;
+	border-top: solid transparent;
+}
+#stock-table td
+{
+	padding: 2px 15px;
+	color: #669;
+	border-top: 1px solid #e8edff;
+	border-right: solid transparent;
+	border-left:  solid transparent;
+
+}
+.columns
+{
+	background: #a0d2e8;
+	border-right: 10px solid transparent;
+	border-left: 10px solid transparent;
+}
+#stock-table tr:hover td
+{
+	color: #339;
+	background: #eff2ff;
+}
+#alert
+{
+	width: 200px;
+	height: 100px;
+	background: #E3E3E3;
+	border: 1px solid blue;
+	margin: auto 710;
+	font-family: "Lucida Sans Unicode", sans-serif;
+	font-size: 12px
+	padding: 15px	
+	color: red
+}

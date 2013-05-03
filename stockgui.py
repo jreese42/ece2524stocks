@@ -153,7 +153,8 @@ class handle0(webapp2.RequestHandler):
 
 	def post(self):
 		amount = int(self.request.get('amount0'))
-		if (buy(self, amount, 0) == 0):
+		buy(self, amount, 0)
+		#if (buy(self, amount, 0) == 0):
 			#push notification
 		OWNED[0] += amount
 		self.redirect('/?' + "handle1")	

@@ -7,7 +7,6 @@ import webGame
 from google.appengine.ext import db
 from google.appengine.api import users
 
-TEST = ["test1", "test2"]
 COMPANY = ["", "", "", "", "", "", "", "", "", ""]
 OWNED = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 PRICE = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -15,7 +14,6 @@ DELTA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 TOTAL = 100
 DAY = 1
 MESSAGE = ""
-STARTED = False
 ERRORCODE = 0
 
 #Company company
@@ -87,6 +85,7 @@ FINISH = """\
 		<form action="/loadFake" method="get">
 			<p><input name="loadFake" type="submit" value="Load Simulated Data" /></p>
 		</form>
+		<font size="3px">Messages:</font>
 		<div id="alert">
 			<p style="padding: 0px 8px; COLOR: red;">%s</p>
 		</div>
@@ -124,7 +123,6 @@ class Company(db.Model):
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
-		global STARTED
 		i = 0
 		user = users.get_current_user()
 		if user:
@@ -152,8 +150,16 @@ class LoadReal(webapp2.RequestHandler):
 class LoadSimulated(webapp2.RequestHandler):
 
     def get(self):
+		global TOTAL
+		global DAY
+		global MESSAGE
+		global ERRORCODE
 		webGame.initStock()
 		update()
+		TOTAL = 100
+		DAY = 1
+		MESSAGE = ""
+		ERRORCODE = 0
 		self.redirect('/?' + "simulated")
 
 class Progress(webapp2.RequestHandler):

@@ -20,11 +20,11 @@ body
 }
 #stock-table td
 {
-	padding: 10px 15px;
+	padding: 2px 15px;
 	color: #669;
 	border-top: 1px solid #e8edff;
 }
-.firstrow
+.columns
 {
 	background: #d0dafd;
 	border-right: 10px solid transparent;

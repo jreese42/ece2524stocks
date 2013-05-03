@@ -2,7 +2,7 @@ body
 {
 	font-family: "Lucida Sans Unicode", sans-serif;
 	color: #033
-	background-color: #E3E3E3
+	background-color: #039
 }
 #stock-table
 {

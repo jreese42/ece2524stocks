@@ -11,6 +11,10 @@ handlers:
 - url: /.*
   script: stockgui.app
 
+- url: /favicon.ico
+  static_files: /favicon.ico
+  upload: /favicon.ico
+
 libraries:
 - name: jinja2
   version: latest

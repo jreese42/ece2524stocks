@@ -19,6 +19,7 @@ DAY = 1
 MAIN_PAGE_HTML = """\
 	<head>
     	<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+		<link type="image/x-icon" rel="icon" href="/static/favicon.ico" />
 	</head>
 	<body>
 		<p><em><strong>World Wide Stock Exchange</strong></em></p>

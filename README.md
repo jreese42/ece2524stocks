@@ -1,7 +1,8 @@
 ECE2524 Stock Simulator Game
 ============================
 
-There are two ways to play the game:
+**There are two ways to play the game:**
+
 RECOMMENDED:
 -----------
 	Visit http://stocksece2524s13.appspot.com/
@@ -14,10 +15,13 @@ ALSO TRY:
 	The game will run on the terminal by executing game.py.
 
 
+
+
 HOW TO PLAY:
 -----------
 
 **Playing on the webapp engine:**
+
 	1. Visit http://stocksece2524s13.appspot.com/
 	2. Click "Load Simulated Data" to generate stocks.
 	3. Buy or sell stocks by respectively putting a positive number in the form box for the stock

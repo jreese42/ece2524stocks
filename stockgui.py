@@ -26,6 +26,9 @@ MAIN_PAGE_HTML = """\
 	</body>
 	<body>
 		<table align="left" border="1" cellpadding="1" cellspacing="1" id="testID">
+			<colgroup>
+				<col class="columns"/>
+			</colgroup>
 			<thead>
 				<tr>
 					<th scope="col">

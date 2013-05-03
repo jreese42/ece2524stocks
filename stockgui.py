@@ -2,6 +2,7 @@ import cgi
 import datetime
 import urllib
 import webapp2
+import webGame
 
 from google.appengine.ext import db
 from google.appengine.api import users
@@ -13,6 +14,9 @@ PRICE = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 DELTA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 TOTAL = 100
 DAY = 1
+MESSAGE = ""
+STARTED = False
+ERRORCODE = 0
 
 #Company company
 
@@ -83,16 +87,28 @@ FINISH = """\
 		<form action="/loadFake" method="get">
 			<p><input name="loadFake" type="submit" value="Load Simulated Data" /></p>
 		</form>
+		<div id="alert">
+			<p style="padding: 0px 8px; COLOR: red;">%s</p>
+		</div>
 	</body>
 """
 
 def buy(self, amount, num):
 	global TOTAL
-	if (amount*PRICE[num] > TOTAL):
-		return 0
+	if (amount*webGame.stocks[num].price > TOTAL):
+		return -1
+	elif ((amount*-1) > webGame.stocks[num].owned):
+		return -2
 	else:
-		TOTAL -= (amount*PRICE[num])
+		TOTAL -= (amount*webGame.stocks[num].price)
 		return 1
+
+def update():
+	for i in range (10):
+			COMPANY[i] = webGame.stocks[i].name
+			OWNED[i] = webGame.stocks[i].owned
+			PRICE[i] = webGame.stocks[i].price
+			DELTA[i] = webGame.stocks[i].change
 
 class Company(db.Model):
 	
@@ -108,6 +124,7 @@ class Company(db.Model):
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
+		global STARTED
 		i = 0
 		user = users.get_current_user()
 		if user:
@@ -120,7 +137,7 @@ class MainPage(webapp2.RequestHandler):
 					button = "buy"
 				self.response.write(TABLE % (str(i), str(i), str(i), COMPANY[i], str(OWNED[i]), str(PRICE[i]), str(DELTA[i])))
 				i = i+1
-			self.response.write(FINISH % (str(TOTAL), str(DAY)))
+			self.response.write(FINISH % (str(TOTAL), str(DAY), MESSAGE))
 			self.response.write('</html>')
 		else:
 			self.redirect(users.create_login_url(self.request.uri))
@@ -135,7 +152,9 @@ class LoadReal(webapp2.RequestHandler):
 class LoadSimulated(webapp2.RequestHandler):
 
     def get(self):
-		self.redirect('/?' + "fake")
+		webGame.initStock()
+		update()
+		self.redirect('/?' + "simulated")
 
 class Progress(webapp2.RequestHandler):
 
@@ -146,18 +165,28 @@ class Progress(webapp2.RequestHandler):
 		global PRICE
 		global DELTA
 		global TOTAL
+		global MESSAGE
 		DAY += 1
+		MESSAGE = "HI"
 		#update all lists
+		
 		self.redirect('/?' + "progress")
 
 class handle0(webapp2.RequestHandler):
 
 	def post(self):
+		global MESSAGE
+		global ERRORCODE
+		MESSAGE = ""
 		amount = int(self.request.get('amount0'))
-		buy(self, amount, 0)
-		#if (buy(self, amount, 0) == 0):
-			#push notification
-		OWNED[0] += amount
+		ERRORCODE = buy(self, amount, 0)
+		if (ERRORCODE == -1):
+			MESSAGE = "You don't have enough money for that!"
+		elif (ERRORCODE == -2):
+			MESSAGE = "You don't have that many stocks!"
+		else:
+			webGame.stocks[0].owned += amount
+		update()
 		self.redirect('/?' + "handle1")	
 
 class handle1(webapp2.RequestHandler):

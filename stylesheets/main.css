@@ -43,3 +43,14 @@ body
 	color: #339;
 	background: #eff2ff;
 }
+#alert
+{
+	width: 200px;
+	height: 100px;
+	background: #E3E3E3;
+	border: 1px solid blue;
+	margin: auto 710;
+	font-family: "Lucida Sans Unicode", sans-serif;
+	font-size: 12px	
+	color: red
+}

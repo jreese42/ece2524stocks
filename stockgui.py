@@ -11,7 +11,7 @@ COMPANY = ["", "", "", "", "", "", "", "", "", ""]
 OWNED = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 PRICE = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 DELTA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-TOTAL = 100
+TOTAL = 140
 DAY = 1
 
 #Company company
@@ -25,7 +25,7 @@ MAIN_PAGE_HTML = """\
 		<p><em><strong>User: %s</strong></em></p>
 	</body>
 	<body>
-		<table align="left" border="1" cellpadding="1" cellspacing="1" id="testID">
+		<table align="left" border="1" cellpadding="1" cellspacing="1" id="stock-table">
 			<thead>
 				<tr>
 					<th scope="col">
@@ -82,6 +82,10 @@ FINISH = """\
 	</body>
 """
 
+def buy(self, amount, num):
+	global TOTAL
+	TOTAL -= (amount*PRICE[num])
+
 class Company(db.Model):
 	
 	name = db.StringProperty()
@@ -89,8 +93,7 @@ class Company(db.Model):
 	price = db.IntegerProperty()
 	change = db.IntegerProperty()
 
-	def buy():
-		self.redirect('/?' + "test")# + company + str(amount))
+	
 	
 
 
@@ -142,8 +145,12 @@ class Progress(webapp2.RequestHandler):
 class handle0(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount0')
-		OWNED[0] += int(amount)
+		amount = int(self.request.get('amount0'))
+		OWNED[0] += amount
+		if (OWNED[0] < 0):
+			OWNED[0] = 0
+		TOTAL = 234
+		buy(self, amount, 0)
 		self.redirect('/?' + "handle1")	
 
 class handle1(webapp2.RequestHandler):
@@ -151,6 +158,8 @@ class handle1(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount1')
 		OWNED[1] += int(amount)
+		if (OWNED[1] < 0):
+			OWNED[1] = 0
 		self.redirect('/?' + "handle2")
 
 class handle2(webapp2.RequestHandler):
@@ -158,6 +167,8 @@ class handle2(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount2')
 		OWNED[2] += int(amount)
+		if (OWNED[2] < 0):
+			OWNED[2] = 0
 		self.redirect('/?' + "handle3")
 
 class handle3(webapp2.RequestHandler):
@@ -165,6 +176,8 @@ class handle3(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount3')
 		OWNED[3] += int(amount)
+		if (OWNED[3] < 0):
+			OWNED[3] = 0
 		self.redirect('/?' + "handle4")
 
 class handle4(webapp2.RequestHandler):
@@ -172,6 +185,8 @@ class handle4(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount4')
 		OWNED[4] += int(amount)
+		if (OWNED[4] < 0):
+			OWNED[4] = 0
 		self.redirect('/?' + "handle5")
 
 class handle5(webapp2.RequestHandler):
@@ -179,6 +194,8 @@ class handle5(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount5')
 		OWNED[5] += int(amount)
+		if (OWNED[5] < 0):
+			OWNED[5] = 0
 		self.redirect('/?' + "handle6")
 
 class handle6(webapp2.RequestHandler):
@@ -186,6 +203,8 @@ class handle6(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount6')
 		OWNED[6] += int(amount)
+		if (OWNED[6] < 0):
+			OWNED[6] = 0
 		self.redirect('/?' + "handle7")
 
 class handle7(webapp2.RequestHandler):
@@ -193,6 +212,8 @@ class handle7(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount7')
 		OWNED[7] += int(amount)
+		if (OWNED[7] < 0):
+			OWNED[7] = 0
 		self.redirect('/?' + "handle8")
 
 class handle8(webapp2.RequestHandler):
@@ -200,6 +221,8 @@ class handle8(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount8')
 		OWNED[8] += int(amount)
+		if (OWNED[8] < 0):
+			OWNED[8] = 0
 		self.redirect('/?' + "handle9")
 
 class handle9(webapp2.RequestHandler):
@@ -207,6 +230,8 @@ class handle9(webapp2.RequestHandler):
 	def post(self):
 		amount = self.request.get('amount9')
 		OWNED[9] += int(amount)
+		if (OWNED[9] < 0):
+			OWNED[9] = 0
 		self.redirect('/?' + "handle10")
 
 app = webapp2.WSGIApplication([('/', MainPage),

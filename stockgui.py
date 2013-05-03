@@ -11,7 +11,7 @@ COMPANY = ["", "", "", "", "", "", "", "", "", ""]
 OWNED = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 PRICE = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 DELTA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-TOTAL = 140
+TOTAL = 100
 DAY = 1
 
 #Company company
@@ -50,7 +50,7 @@ TABLE = """\
 	<tr>
 		<td>
 			<form action="/handle%s" method="post">
-				<input name="buy%s" type="submit" value="Update" />
+				<input name="buy%s" type="submit" value="Update"/>
 				<input name="amount%s" maxlength="10" size="6"/>
 			</form>
 		<td>
@@ -87,7 +87,11 @@ FINISH = """\
 
 def buy(self, amount, num):
 	global TOTAL
-	TOTAL -= (amount*PRICE[num])
+	if (amount*PRICE[num] > TOTAL):
+		return 0
+	else:
+		TOTAL -= (amount*PRICE[num])
+		return 1
 
 class Company(db.Model):
 	
@@ -149,11 +153,9 @@ class handle0(webapp2.RequestHandler):
 
 	def post(self):
 		amount = int(self.request.get('amount0'))
+		if (buy(self, amount, 0) == 0):
+			#push notification
 		OWNED[0] += amount
-		if (OWNED[0] < 0):
-			OWNED[0] = 0
-		TOTAL = 234
-		buy(self, amount, 0)
 		self.redirect('/?' + "handle1")	
 
 class handle1(webapp2.RequestHandler):

@@ -18,6 +18,10 @@ body
 	font-size: 14px;
 	padding: 12px 15px;
 	color: #039;
+	border-bottom: 3px solid #e8edff;
+	border-right: solid transparent;
+	border-left:  solid transparent;
+	border-top: solid transparent;
 }
 #stock-table td
 {
@@ -30,7 +34,7 @@ body
 }
 .columns
 {
-	background: #effeff;
+	background: #a0d2e8;
 	border-right: 10px solid transparent;
 	border-left: 10px solid transparent;
 }

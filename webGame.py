@@ -7,5 +7,5 @@ stocks = []
 def initStock():
 	stocks[:] = []
 	for num in range(10):
-		stocks.append(Stock(num+1))
-
+		stocks.append(Stock(rand.randint(1,10)))
+		stocks[num].simulate()

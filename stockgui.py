@@ -119,7 +119,6 @@ def update():
 		if (FIRSTSHOWING == False):
 			DELTA[i] = webGame.stocks[i].change
 		STOCKVALUE += OWNED[i]*PRICE[i]
-	FIRSTSHOWING = False
 
 def stockTrade(self, stock):
 	global MESSAGE
@@ -127,9 +126,12 @@ def stockTrade(self, stock):
 	MESSAGE = ""
 	textfieldName = 'amount' + str(stock)
 	textfieldAmount = self.request.get(textfieldName)
+	
 	if (STARTED == True):
 		if (textfieldAmount == ""):
 			MESSAGE = "Please enter a stock amount."
+		if "." in textfieldAmount:
+			MESSAGE = "Please enter whole stock value."
 		else:
 			amount = int(textfieldAmount)
 			ERRORCODE = buy(self, amount, stock)
@@ -189,13 +191,16 @@ class LoadSimulated(webapp2.RequestHandler):
 		global MESSAGE
 		global ERRORCODE
 		global STARTED
+		global FIRSTSHOWING
 		STARTED = True
+		FIRSTSHOWING = True
 		webGame.initStock()
 		update()
 		TOTAL = 100
 		DAY = 1
 		MESSAGE = ""
 		ERRORCODE = 0
+		
 		self.redirect('/?' + "simulated")
 
 class Progress(webapp2.RequestHandler):
@@ -208,15 +213,15 @@ class Progress(webapp2.RequestHandler):
 		global DELTA
 		global TOTAL
 		global MESSAGE
+		global FIRSTSHOWING
 		if (STARTED == True):
 			DAY += 1
+			FIRSTSHOWING = False
 			for i in range(10):
 				webGame.stocks[i].simulate()
 			update()
 		else:
 			MESSAGE = "Please load stock data."
-		#update all lists
-		
 		self.redirect('/?' + "progress")
 
 class handle0(webapp2.RequestHandler):

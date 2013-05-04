@@ -47,11 +47,17 @@ def trade_stocks(cash):
 		print "\nYou have $" + str(cash) + "!"
 		user_input = raw_input("Buy, sell, view, or done: ")
 		split_input = user_input.split()
+		try: #try to use the input to make sure it's valid
+			split_input[0]
+		except IndexError:
+			split_input = ['']
+			sys.stdout.write("Input Error: You need to type something.\n")
 		if (split_input[0] == 'buy'): #If user inputs buy
 			try:
 				#Call buy method on stock if enough cash
 				if (cash >= (int(split_input[1])*stocks[int(split_input[2])-1].price)):
 					cash -= stocks[int(split_input[2])-1].buy(int(split_input[1]))
+					show_stocks()
 				else:
 					print "You don't have enough money for that!"
 
@@ -64,6 +70,7 @@ def trade_stocks(cash):
 					own = stocks[int(split_input[2])-1].owned
 					if (own >= int(split_input[1])):
 						cash += stocks[int(split_input[2])-1].sell(int(split_input[1]))
+						show_stocks()
 					else:
 						print "You don't own those stocks!"
 				except:

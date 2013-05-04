@@ -86,7 +86,7 @@ FINISH = """\
 				<p><input name="progress" type="submit" value="Progress" />
 				<input name="progressDays" maxlength="3" size="3" value="1"/>day(s)</p>
 		</form>
-		<form action="/loadReal" method="post">
+		<form action="/loadReal" method="get">
 			<input name="loadReal" type="submit" value="Load Real Data" />
 		</form>
 		<form action="/loadFake" method="get">
@@ -101,12 +101,12 @@ FINISH = """\
 
 def buy(self, amount, num):
 	global TOTAL
-	if (amount*webGame.stocks[num].price > TOTAL):
+	if (float(amount)*float(webGame.stocks[num].price) > float(TOTAL)):
 		return -1
 	elif ((amount*-1) > webGame.stocks[num].owned):
 		return -2
 	else:
-		TOTAL -= (amount*webGame.stocks[num].price)
+		TOTAL -= float(amount)*float(webGame.stocks[num].price)
 		return 1
 
 def update():
@@ -119,7 +119,7 @@ def update():
 		PRICE[i] = webGame.stocks[i].price
 		if (FIRSTSHOWING == False):
 			DELTA[i] = webGame.stocks[i].change
-		STOCKVALUE += OWNED[i]*PRICE[i]
+		STOCKVALUE += float(OWNED[i])*float(PRICE[i])
 
 def stockTrade(self, stock):
 	global MESSAGE
@@ -180,7 +180,22 @@ class MainPage(webapp2.RequestHandler):
 
 class LoadReal(webapp2.RequestHandler):
 
-    def post(self):
+    def get(self):
+		global TOTAL
+		global DAY
+		global MESSAGE
+		global ERRORCODE
+		global STARTED
+		global FIRSTSHOWING
+		STARTED = True
+		FIRSTSHOWING = True
+		webGame.initStock(True)
+		update()
+		TOTAL = 100
+		DAY = 1
+		MESSAGE = ""
+		ERRORCODE = 0
+		
 		self.redirect('/?' + "real")
 
 
@@ -195,7 +210,7 @@ class LoadSimulated(webapp2.RequestHandler):
 		global FIRSTSHOWING
 		STARTED = True
 		FIRSTSHOWING = True
-		webGame.initStock()
+		webGame.initStock(False)
 		update()
 		TOTAL = 100
 		DAY = 1

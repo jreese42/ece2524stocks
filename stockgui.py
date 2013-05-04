@@ -12,10 +12,12 @@ OWNED = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 PRICE = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 DELTA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 TOTAL = 100
+STOCKVALUE = 0;
 DAY = 1
 MESSAGE = ""
 ERRORCODE = 0
 STARTED = False
+FIRSTSHOWING = True
 
 MAIN_PAGE_HTML = """\
 	<head>
@@ -79,6 +81,7 @@ FINISH = """\
 	<body>
 		<form action="/progress" method="post">
 				<p>You have: $%s</p>
+				<p>Your Stock Value: $%s</p>
 				<p>Day: %s</p>
 				<p><input name="progress" type="submit" value="Progress" /></p>
 		</form>
@@ -106,11 +109,17 @@ def buy(self, amount, num):
 		return 1
 
 def update():
+	global STOCKVALUE
+	global FIRSTSHOWING
+	STOCKVALUE = 0
 	for i in range (10):
-			COMPANY[i] = webGame.stocks[i].name
-			OWNED[i] = webGame.stocks[i].owned
-			PRICE[i] = webGame.stocks[i].price
+		COMPANY[i] = webGame.stocks[i].name
+		OWNED[i] = webGame.stocks[i].owned
+		PRICE[i] = webGame.stocks[i].price
+		if (FIRSTSHOWING == False):
 			DELTA[i] = webGame.stocks[i].change
+		STOCKVALUE += OWNED[i]*PRICE[i]
+	FIRSTSHOWING = False
 
 def stockTrade(self, stock):
 	global MESSAGE
@@ -160,7 +169,7 @@ class MainPage(webapp2.RequestHandler):
 					button = "buy"
 				self.response.write(TABLE % (str(i), str(i), str(i), COMPANY[i], str(OWNED[i]), str(PRICE[i]), str(DELTA[i])))
 				i = i+1
-			self.response.write(FINISH % (str(TOTAL), str(DAY), MESSAGE))
+			self.response.write(FINISH % (str(TOTAL), str(STOCKVALUE), str(DAY), MESSAGE))
 			self.response.write('</html>')
 		else:
 			self.redirect(users.create_login_url(self.request.uri))

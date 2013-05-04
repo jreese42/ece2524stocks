@@ -29,7 +29,7 @@ MAIN_PAGE_HTML = """\
 			<tr>
 				<th scope="col">
 					<font size="5px"><p>Stock Exchange!</p></font>
-					<font size="3px"><p>User:%s</p></font></th>
+					<font size="3px"><p>User: %s</p></font></th>
 			</tr>
 		</table>
 
@@ -83,7 +83,8 @@ FINISH = """\
 				<p>Your Wallet: $%s</p>
 				<p>Your Stock Value: $%s</p>
 				<p>Day: %s</p>
-				<p><input name="progress" type="submit" value="Progress" /></p>
+				<p><input name="progress" type="submit" value="Progress" />
+				<input name="progressDays" maxlength="3" size="3" value="1"/>day(s)</p>
 		</form>
 		<form action="/loadReal" method="post">
 			<input name="loadReal" type="submit" value="Load Real Data" />
@@ -129,9 +130,9 @@ def stockTrade(self, stock):
 	
 	if (STARTED == True):
 		if (textfieldAmount == ""):
-			MESSAGE = "Please enter a stock amount."
+			MESSAGE = "Enter a stock amount first."
 		if "." in textfieldAmount:
-			MESSAGE = "Please enter whole stock value."
+			MESSAGE = "Enter stocks in whole shares only."
 		else:
 			amount = int(textfieldAmount)
 			ERRORCODE = buy(self, amount, stock)
@@ -143,7 +144,7 @@ def stockTrade(self, stock):
 				webGame.stocks[stock].owned += amount
 			update()
 	else:
-		MESSAGE = "Please load stock data."
+		MESSAGE = "Load stock data first."
 
 class Company(db.Model):
 	
@@ -215,11 +216,12 @@ class Progress(webapp2.RequestHandler):
 		global MESSAGE
 		global FIRSTSHOWING
 		if (STARTED == True):
-			DAY += 1
-			FIRSTSHOWING = False
-			for i in range(10):
-				webGame.stocks[i].simulate()
-			update()
+			for days in range(int(self.request.get('progressDays'))):
+				DAY += 1
+				FIRSTSHOWING = False
+				for i in range(10):
+					webGame.stocks[i].simulate()
+				update()
 		else:
 			MESSAGE = "Please load stock data."
 		self.redirect('/?' + "progress")

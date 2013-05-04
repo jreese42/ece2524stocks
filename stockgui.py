@@ -16,18 +16,19 @@ DAY = 1
 MESSAGE = ""
 ERRORCODE = 0
 
-#Company company
-
 MAIN_PAGE_HTML = """\
 	<head>
     	<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 		<link type="image/x-icon" rel="icon" href="/static/favicon.ico" />
 	</head>
 	<body>
-		<p><em><strong>World Wide Stock Exchange</strong></em></p>
-		<p><em><strong>User: %s</strong></em></p>
-	</body>
-	<body>
+		<table id = "head">
+			<tr>
+				<th scope="col">
+					Stock Exchange!   User:%s</th>
+			</tr>
+		</table>
+
 		<table align="left" border="1" cellpadding="1" cellspacing="1" id="stock-table">
 			<colgroup>
 				<col class="columns"/>

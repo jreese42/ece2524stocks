@@ -12,9 +12,12 @@ OWNED = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 PRICE = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 DELTA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 TOTAL = 100
+STOCKVALUE = 0;
 DAY = 1
 MESSAGE = ""
 ERRORCODE = 0
+STARTED = False
+FIRSTSHOWING = True
 
 MAIN_PAGE_HTML = """\
 	<head>
@@ -25,7 +28,8 @@ MAIN_PAGE_HTML = """\
 		<table id = "head">
 			<tr>
 				<th scope="col">
-					Stock Exchange!   User:%s</th>
+					<font size="5px"><p>Stock Exchange!</p></font>
+					<font size="3px"><p>User: %s</p></font></th>
 			</tr>
 		</table>
 
@@ -76,11 +80,13 @@ FINISH = """\
 	</body>
 	<body>
 		<form action="/progress" method="post">
-				<p>You have: $%s</p>
+				<p>Your Wallet: $%s</p>
+				<p>Your Stock Value: $%s</p>
 				<p>Day: %s</p>
-				<p><input name="progress" type="submit" value="Progress" /></p>
+				<p><input name="progress" type="submit" value="Progress" />
+				<input name="progressDays" maxlength="3" size="3" value="1"/>day(s)</p>
 		</form>
-		<form action="/loadReal" method="post">
+		<form action="/loadReal" method="get">
 			<input name="loadReal" type="submit" value="Load Real Data" />
 		</form>
 		<form action="/loadFake" method="get">
@@ -95,20 +101,50 @@ FINISH = """\
 
 def buy(self, amount, num):
 	global TOTAL
-	if (amount*webGame.stocks[num].price > TOTAL):
+	if (float(amount)*float(webGame.stocks[num].price) > float(TOTAL)):
 		return -1
 	elif ((amount*-1) > webGame.stocks[num].owned):
 		return -2
 	else:
-		TOTAL -= (amount*webGame.stocks[num].price)
+		TOTAL -= float(amount)*float(webGame.stocks[num].price)
 		return 1
 
 def update():
+	global STOCKVALUE
+	global FIRSTSHOWING
+	STOCKVALUE = 0
 	for i in range (10):
-			COMPANY[i] = webGame.stocks[i].name
-			OWNED[i] = webGame.stocks[i].owned
-			PRICE[i] = webGame.stocks[i].price
+		COMPANY[i] = webGame.stocks[i].name
+		OWNED[i] = webGame.stocks[i].owned
+		PRICE[i] = webGame.stocks[i].price
+		if (FIRSTSHOWING == False):
 			DELTA[i] = webGame.stocks[i].change
+		STOCKVALUE += float(OWNED[i])*float(PRICE[i])
+
+def stockTrade(self, stock):
+	global MESSAGE
+	global ERRORCODE
+	MESSAGE = ""
+	textfieldName = 'amount' + str(stock)
+	textfieldAmount = self.request.get(textfieldName)
+	
+	if (STARTED == True):
+		if (textfieldAmount == ""):
+			MESSAGE = "Enter a stock amount first."
+		if "." in textfieldAmount:
+			MESSAGE = "Enter stocks in whole shares only."
+		else:
+			amount = int(textfieldAmount)
+			ERRORCODE = buy(self, amount, stock)
+			if (ERRORCODE == -1):
+				MESSAGE = "You don't have enough money for that!"
+			elif (ERRORCODE == -2):
+				MESSAGE = "You don't have that many stocks!"
+			else:
+				webGame.stocks[stock].owned += amount
+			update()
+	else:
+		MESSAGE = "Load stock data first."
 
 class Company(db.Model):
 	
@@ -136,7 +172,7 @@ class MainPage(webapp2.RequestHandler):
 					button = "buy"
 				self.response.write(TABLE % (str(i), str(i), str(i), COMPANY[i], str(OWNED[i]), str(PRICE[i]), str(DELTA[i])))
 				i = i+1
-			self.response.write(FINISH % (str(TOTAL), str(DAY), MESSAGE))
+			self.response.write(FINISH % (str(TOTAL), str(STOCKVALUE), str(DAY), MESSAGE))
 			self.response.write('</html>')
 		else:
 			self.redirect(users.create_login_url(self.request.uri))
@@ -144,7 +180,22 @@ class MainPage(webapp2.RequestHandler):
 
 class LoadReal(webapp2.RequestHandler):
 
-    def post(self):
+    def get(self):
+		global TOTAL
+		global DAY
+		global MESSAGE
+		global ERRORCODE
+		global STARTED
+		global FIRSTSHOWING
+		STARTED = True
+		FIRSTSHOWING = True
+		webGame.initStock(True)
+		update()
+		TOTAL = 100
+		DAY = 1
+		MESSAGE = ""
+		ERRORCODE = 0
+		
 		self.redirect('/?' + "real")
 
 
@@ -155,12 +206,17 @@ class LoadSimulated(webapp2.RequestHandler):
 		global DAY
 		global MESSAGE
 		global ERRORCODE
-		webGame.initStock()
+		global STARTED
+		global FIRSTSHOWING
+		STARTED = True
+		FIRSTSHOWING = True
+		webGame.initStock(False)
 		update()
 		TOTAL = 100
 		DAY = 1
 		MESSAGE = ""
 		ERRORCODE = 0
+		
 		self.redirect('/?' + "simulated")
 
 class Progress(webapp2.RequestHandler):
@@ -173,108 +229,76 @@ class Progress(webapp2.RequestHandler):
 		global DELTA
 		global TOTAL
 		global MESSAGE
-		DAY += 1
-		MESSAGE = "HI"
-		#update all lists
-		
+		global FIRSTSHOWING
+		if (STARTED == True):
+			for days in range(int(self.request.get('progressDays'))):
+				DAY += 1
+				FIRSTSHOWING = False
+				for i in range(10):
+					webGame.stocks[i].simulate()
+				update()
+		else:
+			MESSAGE = "Please load stock data."
 		self.redirect('/?' + "progress")
 
 class handle0(webapp2.RequestHandler):
 
 	def post(self):
-		global MESSAGE
-		global ERRORCODE
-		MESSAGE = ""
-		amount = int(self.request.get('amount0'))
-		ERRORCODE = buy(self, amount, 0)
-		if (ERRORCODE == -1):
-			MESSAGE = "You don't have enough money for that!"
-		elif (ERRORCODE == -2):
-			MESSAGE = "You don't have that many stocks!"
-		else:
-			webGame.stocks[0].owned += amount
-		update()
+		stockTrade(self, 0)
 		self.redirect('/?' + "handle1")	
 
 class handle1(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount1')
-		OWNED[1] += int(amount)
-		if (OWNED[1] < 0):
-			OWNED[1] = 0
+		stockTrade(self, 1)
 		self.redirect('/?' + "handle2")
 
 class handle2(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount2')
-		OWNED[2] += int(amount)
-		if (OWNED[2] < 0):
-			OWNED[2] = 0
+		stockTrade(self, 2)
 		self.redirect('/?' + "handle3")
 
 class handle3(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount3')
-		OWNED[3] += int(amount)
-		if (OWNED[3] < 0):
-			OWNED[3] = 0
+		stockTrade(self, 3)
 		self.redirect('/?' + "handle4")
 
 class handle4(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount4')
-		OWNED[4] += int(amount)
-		if (OWNED[4] < 0):
-			OWNED[4] = 0
+		stockTrade(self, 4)
 		self.redirect('/?' + "handle5")
 
 class handle5(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount5')
-		OWNED[5] += int(amount)
-		if (OWNED[5] < 0):
-			OWNED[5] = 0
+		stockTrade(self, 5)
 		self.redirect('/?' + "handle6")
 
 class handle6(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount6')
-		OWNED[6] += int(amount)
-		if (OWNED[6] < 0):
-			OWNED[6] = 0
+		stockTrade(self, 6)
 		self.redirect('/?' + "handle7")
 
 class handle7(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount7')
-		OWNED[7] += int(amount)
-		if (OWNED[7] < 0):
-			OWNED[7] = 0
+		stockTrade(self, 7)
 		self.redirect('/?' + "handle8")
 
 class handle8(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount8')
-		OWNED[8] += int(amount)
-		if (OWNED[8] < 0):
-			OWNED[8] = 0
+		stockTrade(self, 8)
 		self.redirect('/?' + "handle9")
 
 class handle9(webapp2.RequestHandler):
 
 	def post(self):
-		amount = self.request.get('amount9')
-		OWNED[9] += int(amount)
-		if (OWNED[9] < 0):
-			OWNED[9] = 0
+		stockTrade(self, 9)
 		self.redirect('/?' + "handle10")
 
 app = webapp2.WSGIApplication([('/', MainPage),

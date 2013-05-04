@@ -15,6 +15,7 @@ TOTAL = 100
 DAY = 1
 MESSAGE = ""
 ERRORCODE = 0
+STARTED = False
 
 MAIN_PAGE_HTML = """\
 	<head>
@@ -25,7 +26,8 @@ MAIN_PAGE_HTML = """\
 		<table id = "head">
 			<tr>
 				<th scope="col">
-					Stock Exchange!   User:%s</th>
+					<font size="5px"><p>Stock Exchange!</p></font>
+					<font size="3px"><p>User:%s</p></font></th>
 			</tr>
 		</table>
 
@@ -115,15 +117,22 @@ def stockTrade(self, stock):
 	global ERRORCODE
 	MESSAGE = ""
 	textfieldName = 'amount' + str(stock)
-	amount = int(self.request.get(textfieldName))
-	ERRORCODE = buy(self, amount, stock)
-	if (ERRORCODE == -1):
-		MESSAGE = "You don't have enough money for that!"
-	elif (ERRORCODE == -2):
-		MESSAGE = "You don't have that many stocks!"
+	textfieldAmount = self.request.get(textfieldName)
+	if (STARTED == True):
+		if (textfieldAmount == ""):
+			MESSAGE = "Please enter a stock amount."
+		else:
+			amount = int(textfieldAmount)
+			ERRORCODE = buy(self, amount, stock)
+			if (ERRORCODE == -1):
+				MESSAGE = "You don't have enough money for that!"
+			elif (ERRORCODE == -2):
+				MESSAGE = "You don't have that many stocks!"
+			else:
+				webGame.stocks[stock].owned += amount
+			update()
 	else:
-		webGame.stocks[stock].owned += amount
-	update()
+		MESSAGE = "Please load stock data."
 
 class Company(db.Model):
 	
@@ -170,6 +179,8 @@ class LoadSimulated(webapp2.RequestHandler):
 		global DAY
 		global MESSAGE
 		global ERRORCODE
+		global STARTED
+		STARTED = True
 		webGame.initStock()
 		update()
 		TOTAL = 100
@@ -188,10 +199,13 @@ class Progress(webapp2.RequestHandler):
 		global DELTA
 		global TOTAL
 		global MESSAGE
-		DAY += 1
-		for i in range(10):
-			webGame.stocks[i].simulate()
-		update()
+		if (STARTED == True):
+			DAY += 1
+			for i in range(10):
+				webGame.stocks[i].simulate()
+			update()
+		else:
+			MESSAGE = "Please load stock data."
 		#update all lists
 		
 		self.redirect('/?' + "progress")

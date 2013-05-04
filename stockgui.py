@@ -80,7 +80,7 @@ FINISH = """\
 	</body>
 	<body>
 		<form action="/progress" method="post">
-				<p>You have: $%s</p>
+				<p>Your Wallet: $%s</p>
 				<p>Your Stock Value: $%s</p>
 				<p>Day: %s</p>
 				<p><input name="progress" type="submit" value="Progress" /></p>

@@ -10,9 +10,12 @@ RECOMMENDED:
 	The main GUI based version of the game runs here.
 	It requires a google account to play (you can use your VT account).
 
+
+
 ALSO TRY:
 ---------
 	The game will run on the terminal by executing game.py.
+	This is an older version of the game and does not include historical data.
 
 
 
@@ -24,11 +27,12 @@ HOW TO PLAY:
 
 	1. Visit http://stocksece2524s13.appspot.com/
 	2. Click "Load Simulated Data" to generate stocks.
-	3. Buy or sell stocks by respectively putting a positive number in the form box for the stock
+	2. Click "Load Simulated Data" to generate simulated stocks. Alternately, click "Load Real Data" to load historical data.
+	3. Buy or sell stocks by respectively putting a positive number or a negative number in the form box for the stock
 	and pressing "Update".
-	4. Press "Progress" to simulate one day's change in the stocks.
-	5. At any time, reload the simulated data to start over.
-	6. ???
+	4. You can buy and sell stocks as many times as you would like per day.
+	5. Press "Progress" to simulate one day's change in the stocks.
+	6. At any time, reload the data to start over.
 	7. Profit.
 
 **Playing on the terminal**
@@ -41,10 +45,11 @@ HOW TO PLAY:
 		*sell [how many] [stock number]
 		*view
 		*done
+		*exit
 		*The 'view' command will show a table of the stocks.
 		*The 'done' command will finish the day's trading and simulate a new day.
 
 Known Issues:
 ------------
 	There are currently no game objectives
-	The webapp engine occasionally breaks if the user mashes inputs
+	The webapp allows players to play together, but not with their own, saved data...yet.

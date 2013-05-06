@@ -1,4 +1,5 @@
 import cgi
+import re
 import datetime
 import urllib
 import webapp2
@@ -133,6 +134,8 @@ def stockTrade(self, stock):
 			MESSAGE = "Enter a stock amount first."
 		elif "." in textfieldAmount:
 			MESSAGE = "Enter stocks in whole shares only."
+		elif not re.compile("\d+").search(textfieldAmount):
+			MESSAGE = "Enter stocks as integer values only."
 		else:
 			amount = int(textfieldAmount)
 			ERRORCODE = buy(self, amount, stock)

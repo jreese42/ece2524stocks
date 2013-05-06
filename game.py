@@ -45,7 +45,7 @@ def trade_stocks(cash):
 	'''Opens stocks for trade by terminal'''
 	while(1):
 		print "\nYou have $" + str(cash) + "!"
-		user_input = raw_input("Buy, sell, view, or done: ")
+		user_input = raw_input("Buy, sell, view, done, or exit: ")
 		split_input = user_input.split()
 		try: #try to use the input to make sure it's valid
 			split_input[0]
@@ -80,14 +80,20 @@ def trade_stocks(cash):
 			show_stocks() #Print stock table when requested
 		elif (split_input[0] == "done"):
 			break #Exit the method when 'done'
+		elif (split_input[0] == "exit"):
+			quit()
 		else:
-			print "Please input only buy, sell, view, or done.\nType buy or sell with no arguments to see usage."
+			print "Please input only buy, sell, view, done, or exit.\nType buy or sell with no arguments to see usage."
 	return cash #This is used to keep track of the global cash variable
 
 #initialize the game
 for num in range(10): #Create stocks
 	stocks.append( Stock(num+1) )
-while(1): #One 'day' is a simulation and a trading session
-	sim_stocks()
-	show_stocks()
-	cash = trade_stocks(cash)
+try:
+	while(1): #One 'day' is a simulation and a trading session
+		sim_stocks()
+		show_stocks()
+		cash = trade_stocks(cash)
+except:
+	print "\nThanks for playing!\n"
+	quit()

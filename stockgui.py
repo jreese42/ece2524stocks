@@ -128,10 +128,10 @@ def stockTrade(self, stock):
 	textfieldName = 'amount' + str(stock)
 	textfieldAmount = self.request.get(textfieldName)
 	
-	if (STARTED == True):
+	if (STARTED == 1):
 		if (textfieldAmount == ""):
 			MESSAGE = "Enter a stock amount first."
-		if "." in textfieldAmount:
+		elif "." in textfieldAmount:
 			MESSAGE = "Enter stocks in whole shares only."
 		else:
 			amount = int(textfieldAmount)
@@ -142,19 +142,20 @@ def stockTrade(self, stock):
 				MESSAGE = "You don't have that many stocks!"
 			else:
 				webGame.stocks[stock].owned += amount
+			
 			update()
 	else:
 		MESSAGE = "Load stock data first."
 
 class Company(db.Model):
-	
+
 	name = db.StringProperty()
 	owned = db.IntegerProperty()
 	price = db.IntegerProperty()
 	change = db.IntegerProperty()
 
-	
-	
+
+
 
 
 class MainPage(webapp2.RequestHandler):
@@ -195,7 +196,7 @@ class LoadReal(webapp2.RequestHandler):
 		DAY = 1
 		MESSAGE = ""
 		ERRORCODE = 0
-		
+
 		self.redirect('/?' + "real")
 
 
@@ -216,7 +217,7 @@ class LoadSimulated(webapp2.RequestHandler):
 		DAY = 1
 		MESSAGE = ""
 		ERRORCODE = 0
-		
+
 		self.redirect('/?' + "simulated")
 
 class Progress(webapp2.RequestHandler):

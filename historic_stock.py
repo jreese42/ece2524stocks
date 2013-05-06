@@ -74,10 +74,10 @@ class Historical_Stock:
 
 		self.price = self.price_array[self.index_in_price_array] #set price equal to first element in the price array
 
-
 	def simulate(self):
 		self.prev_price = self.price
-		self.index_in_price_array += 1  #increment the index 
+		self.index_in_price_array += 1  #increment the index
+		self.index_in_price_array %= len(self.price_array) #make sure the index doesn't roll over
 		self.price = self.price_array[self.index_in_price_array] #set the new price equal to the corresponding element in the array
 
 		#keep track of the day-to-day change

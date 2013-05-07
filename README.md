@@ -29,6 +29,8 @@ HOW TO PLAY:
 	2. Click "Load Simulated Data" to generate simulated stocks. Alternately, click "Load Real Data" to load historical data.
 	3. Buy or sell stocks by respectively putting a positive number or a negative number in the form box for the stock
 	and pressing "Update".
+		Example: To buy 5 stocks from a certain company, enter "+5" in the text box and press "Update"
+				 To sell 5 stocks from a certain comany (assuming you own at least 5 stocks), etner "-5" in the text box and press "Update"
 	4. You can buy and sell stocks as many times as you would like per day.
 	5. Press "Progress" to simulate one day's change in the stocks.
 	6. At any time, reload the data to start over.
@@ -36,7 +38,7 @@ HOW TO PLAY:
 
 **Playing on the terminal:**
 
-	1. Run game.py
+	. Run game.py
 	2. 10 stocks are listed in the following format
 		[Num]) [Stock], [Number Owned], [Price], [Change]
 	3. To use the game, type one of the following:

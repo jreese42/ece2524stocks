@@ -14,7 +14,7 @@ RECOMMENDED:
 
 LESS RECOMMENDED:
 ----------------
-	The game will run on the terminal by executing game.py.
+	The game will run on the terminal by executing game.py (do this by typing "./game.py" in the terminal).
 	This is an older version of the game and does not include historical data.
 	It was mostly used for testing, but will demonstrate the game's functionality.
 

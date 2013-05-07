@@ -12,11 +12,11 @@ RECOMMENDED:
 
 
 
-ALSO TRY:
----------
+LESS RECOMMENDED:
+----------------
 	The game will run on the terminal by executing game.py.
 	This is an older version of the game and does not include historical data.
-
+	It was mostly used for testing, but will demonstrate the game's functionality.
 
 
 
@@ -26,7 +26,6 @@ HOW TO PLAY:
 **Playing on the webapp engine:**
 
 	1. Visit http://stocksece2524s13.appspot.com/
-	2. Click "Load Simulated Data" to generate stocks.
 	2. Click "Load Simulated Data" to generate simulated stocks. Alternately, click "Load Real Data" to load historical data.
 	3. Buy or sell stocks by respectively putting a positive number or a negative number in the form box for the stock
 	and pressing "Update".
@@ -35,7 +34,7 @@ HOW TO PLAY:
 	6. At any time, reload the data to start over.
 	7. Profit.
 
-**Playing on the terminal**
+**Playing on the terminal:**
 
 	1. Run game.py
 	2. 10 stocks are listed in the following format
@@ -48,6 +47,10 @@ HOW TO PLAY:
 		*exit
 		*The 'view' command will show a table of the stocks.
 		*The 'done' command will finish the day's trading and simulate a new day.
+
+Still to Come:
+--------------
+	*Allow users to specify their own historic stocks and stock dates
 
 Known Issues:
 ------------

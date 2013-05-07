@@ -41,16 +41,16 @@ HOW TO PLAY:
 		[Num]) [Stock], [Number Owned], [Price], [Change]
 	3. To use the game, type one of the following:
 		* buy [how many] [stock number]
-		*sell [how many] [stock number]
-		*view
-		*done
-		*exit
-		*The 'view' command will show a table of the stocks.
-		*The 'done' command will finish the day's trading and simulate a new day.
+		* sell [how many] [stock number]
+		* view
+		* done
+		* exit
+		* The 'view' command will show a table of the stocks.
+		* The 'done' command will finish the day's trading and simulate a new day.
 
 Still to Come:
 --------------
-	*Allow users to specify their own historic stocks and stock dates
+	* Allow users to specify their own historic stocks and stock dates
 
 Known Issues:
 ------------

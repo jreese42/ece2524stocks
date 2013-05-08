@@ -30,7 +30,7 @@ HOW TO PLAY:
 	3. Buy or sell stocks by respectively putting a positive number or a negative number in the form box for the stock
 	and pressing "Update".
 		Example: To buy 5 stocks from a certain company, enter "+5" in the text box and press "Update"
-				 To sell 5 stocks from a certain comany (assuming you own at least 5 stocks), etner "-5" in the text box and press "Update"
+			 To sell 5 stocks from a certain company (assuming you own at least 5 stocks), enter "-5" in the text box and press "Update"
 	4. You can buy and sell stocks as many times as you would like per day.
 	5. Press "Progress" to simulate one day's change in the stocks.
 	6. At any time, reload the data to start over.

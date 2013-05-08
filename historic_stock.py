@@ -15,7 +15,10 @@ class Historical_Stock:
 	price_array = []
 	index_in_price_array = 0
 	name = ""
+<<<<<<< HEAD
 	company = ""
+=======
+>>>>>>> brian_dev
 	
 	rand.seed(time.time())
 
@@ -69,17 +72,26 @@ class Historical_Stock:
 				self.name = "Yahoo! Inc."
 
 		self.price = self.price_array[self.index_in_price_array] #set price equal to first element in the price array
+<<<<<<< HEAD
 		self.price = float('%.2f' % self.price)
+=======
+>>>>>>> brian_dev
 
 	def simulate(self):
 		self.prev_price = self.price
 		self.index_in_price_array += 1  #increment the index
 		self.index_in_price_array %= len(self.price_array) #make sure the index doesn't roll over
 		self.price = self.price_array[self.index_in_price_array] #set the new price equal to the corresponding element in the array
+<<<<<<< HEAD
 		self.price = float('%.2f' % self.price)
 
 		#keep track of the day-to-day change
 		self.change = self.price - self.prev_price
+=======
+
+		#keep track of the day-to-day change
+		self.change = float(self.price) - float(self.prev_price)
+>>>>>>> brian_dev
 
 	def buy(self, amount):
 		self.owned += amount

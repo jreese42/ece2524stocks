@@ -38,7 +38,7 @@ HOW TO PLAY:
 
 **Playing on the terminal:**
 
-	. Run game.py
+	1. Run game.py
 	2. 10 stocks are listed in the following format
 		[Num]) [Stock], [Number Owned], [Price], [Change]
 	3. To use the game, type one of the following:

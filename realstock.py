@@ -14,27 +14,49 @@ class realStock:
 	one_day = dt.timedelta(days=1) #used to move days forward
 	stockDate = dt.date.today()
 
-	def __init__(self, name, start_year, start_month, start_day):
+	def __init__(self, name, start_date):
 		self.name = name.upper()
 		try:
-			self.stockDate = dt.date(start_year, start_month, start_day)
+			self.stockDate = dt.date(int(start_date[0:4]), int(start_date[5:7]), int(start_date[8:10]))
 		except ValueError:
 			print "Error: bad date"
+		except IndexError:
+			print "Error: dates must be iso format"
 		
-		try:
-			self.price = float(ystock.get_historical_prices(self.name, 
-									self.stockDate.isoformat(),
-									self.stockDate.isoformat() )[1][4])
-		except IOError:
-			name = ''
-	def next_day(self):
+		got_price = 0
+		attempts = 0
+		while not got_price and attempts < 5:
+			try:
+				self.price = float(ystock.get_historical_prices(self.name, 
+										self.stockDate.isoformat(),
+										self.stockDate.isoformat() )[1][4])
+			except:
+				self.stockDate = self.stockDate + self.one_day
+				attempts += 1
+			else:
+				got_price = 1
+		
+		if self.price == 0:
+			print "Unable to find stock name"
+			
+	def simulate(self):
 		#This function will read the next days' stock closing price from yahoo
 		self.stockDate = self.stockDate + self.one_day
 		self.prev_price = self.price
+		got_price = 0
 		if not (self.name == ''): 
-			self.price = float(ystock.get_historical_prices(self.name,
-									self.stockDate.isoformat(), 
-									self.stockDate.isoformat() )[1][4])
+			got_price = 0
+			attempts = 0
+			while not got_price and attempts < 5:
+				try:
+					self.price = float(ystock.get_historical_prices(self.name, 
+											self.stockDate.isoformat(),
+											self.stockDate.isoformat() )[1][4])
+				except:
+					self.stockDate = self.stockDate + self.one_day
+					attempts += 1
+				else:
+					got_price = 1
 
 		#keep track of change between days
 		self.change = self.price - self.prev_price

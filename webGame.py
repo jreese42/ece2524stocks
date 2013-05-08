@@ -8,6 +8,7 @@ alreadyUsed = []
 
 def initStock(real):
 
+	#clear lists upon init
 	stocks[:] = []
 	alreadyUsed[:] = []
 

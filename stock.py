@@ -33,6 +33,7 @@ class Stock:
 		self.scale = scale_val
 		self.name = self.name1[rand.randint(0,len(self.name1)-1)] + " " + self.name2[rand.randint(0,len(self.name2)-1)]
 		self.price = 10*scale_val
+		self.price = float('%.2f' % self.price)
 		self.trend = rand.randint(1,5)
 
 	def simulate(self):
